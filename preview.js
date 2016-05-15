@@ -107,12 +107,12 @@ function createImageElements(imageUrls) {
 }
 
 function centeringModalSyncer($) {
-    var width = $(window).width();
-    var height = $(window).height();
-    var contentWidth = $("#modal-content").width();
-    var contentHeight = $("#modal-content").height();
-    var pxLeft = ((width - contentWidth) / 2);
-    var pxTop = ((height - contentHeight) / 2);
+    const width = $(window).width();
+    const height = $(window).height();
+    let contentWidth = $("#modal-content").width();
+    let contentHeight = $("#modal-content").height();
+    const pxLeft = ((width - contentWidth) / 2);
+    const pxTop = ((height - contentHeight) / 2);
     $("#modal-content").css({"left": pxLeft + "px"});
     $("#modal-content").css({"top": pxTop + "px"});
 }
