@@ -1,0 +1,17 @@
+{
+    "manifest_version": 2,
+    "name": "TabelogImagePreview",
+    "description": "食べログの検索結果画面から投稿写真を確認できるExtension",
+    "version": "1.0",
+    "content_scripts": [
+        {
+            "matches": [
+                "http://tabelog.com/*"
+            ],
+            "js": [
+                "./jquery-2.2.3.js",
+                "./preview.js"
+            ]
+        }
+    ]
+}
