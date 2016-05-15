@@ -1,20 +1,11 @@
-let request;
+let req;
+let baseUrl;
+
 $(function() {
     $("a").hover(
         function() {
-            cancelRequest();
-            const detailUrl = $(this).attr("href");
-            const dataSource = createUrlDataSource(detailUrl);
-            requet = $.ajax({
-                type: 'GET',
-                url: dataSource["interior"],
-                dataType: 'html',
-                success: function(data) {
-                    const imageUrls = parseImageUrl(data)
-                    console.log(imageUrls);
-                },
-                error: function() { console.log('error'); }
-            });
+            baseUrl = $(this).attr("href");
+            request("interior");
         },
         function() {
             cancelRequest();
@@ -22,17 +13,32 @@ $(function() {
     );
 });
 
+function request(context) {
+    cancelRequest();
+    const dataSource = createUrlDataSource(baseUrl);
+    req = $.ajax({
+        type: 'GET',
+        url: dataSource[context],
+        dataType: 'html',
+        success: function(data) {
+            const imageUrls = parseImageUrl(data)
+            appendOverlayElement($, imageUrls, context);
+        },
+        error: function() { console.log('error'); }
+    });
+}
+
 function cancelRequest() {
-    if (request != null) {
-        request.abort();
+    if (req != null) {
+        req.abort();
     }
 }
 
-function createUrlDataSource(detailUrl) {
+function createUrlDataSource(baseUrl) {
     return {
-        "food": `${detailUrl}dtlphotolst/1/smp2/`,
-        "interior": `${detailUrl}dtlphotolst/3/smp2/`,
-        "exterior": `${detailUrl}dtlphotolst/4/smp2/`
+        "food": `${baseUrl}dtlphotolst/1/smp2/`,
+        "interior": `${baseUrl}dtlphotolst/3/smp2/`,
+        "exterior": `${baseUrl}dtlphotolst/4/smp2/`
     }
 }
 
@@ -44,4 +50,68 @@ function parseImageUrl(htmlString) {
         imageUrls.push(imageUrl);
     });
     return imageUrls;
+}
+
+function appendOverlayElement($, imageUrls, context) {
+    if ($("#modal-overlay, #modal-content").size() > 0) return;
+
+    $("body").append('<div id="modal-overlay"></div>');
+    $("body").append(`
+        <div id="modal-content">
+            <div>
+                <span id="modal-menu-food">料理</span>
+                <span id="modal-menu-interior">店内</span>
+                <span id="modal-menu-exterior">店頭</span>
+            </div>
+            ${createImageElements(imageUrls)}
+        </div>
+    `);
+    setTimeout(function() { centeringModalSyncer($); }, 500);
+
+    $("#modal-overlay, #modal-content").fadeIn("slow");
+
+    setClickListener($);
+}
+
+function setClickListener($) {
+    $("#modal-overlay").click(function() {
+        hide($);
+    });
+    $("#modal-menu-food").click(function() {
+        hide($);
+        request("food");
+    });
+    $("#modal-menu-interior").click(function() {
+        hide($);
+        request("interior");
+    });
+    $("#modal-menu-exterior").click(function() {
+        hide($);
+        request("exterior");
+    });
+}
+
+function hide($) {
+    $("#modal-overlay, #modal-content").fadeOut("slow", function() {
+        $("#modal-overlay, #modal-content").remove();
+    });
+}
+
+function createImageElements(imageUrls) {
+    let imageElements = [];
+    for (const imageUrl of imageUrls) {
+        imageElements.push(`<img src="${imageUrl}">`);
+    }
+    return imageElements.join('');
+}
+
+function centeringModalSyncer($) {
+    var width = $(window).width();
+    var height = $(window).height();
+    var contentWidth = $("#modal-content").width();
+    var contentHeight = $("#modal-content").height();
+    var pxLeft = ((width - contentWidth) / 2);
+    var pxTop = ((height - contentHeight) / 2);
+    $("#modal-content").css({"left": pxLeft + "px"});
+    $("#modal-content").css({"top": pxTop + "px"});
 }

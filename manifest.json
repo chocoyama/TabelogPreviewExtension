@@ -11,6 +11,9 @@
             "js": [
                 "./jquery-2.2.3.js",
                 "./preview.js"
+            ],
+            "css": [
+                "./preview.css"
             ]
         }
     ]
