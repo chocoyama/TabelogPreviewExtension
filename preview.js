@@ -3,9 +3,9 @@ let baseUrl;
 let cachedYPosition;
 
 $(function() {
-    $("a").hover(
+    $("a.list-rst__rst-name-target.js-click-rdlog, a.js-click-rdlog.list-rst__image-target").hover(
         function() {
-            baseUrl = $(this).attr("href");
+            baseUrl = $(this).attr("href").replace(/\?.*$/, "");
             request("interior");
         },
         function() {
