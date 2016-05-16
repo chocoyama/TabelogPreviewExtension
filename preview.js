@@ -69,9 +69,15 @@ function appendOverlayElement($, imageUrls, context) {
     `);
     setTimeout(function() { centeringModalSyncer($); }, 500);
 
+    fixBodyPosition($);
     $("#modal-overlay, #modal-content").fadeIn("slow");
 
     setClickListener($);
+}
+
+function fixBodyPosition($) {
+    const currentY = $(window).scrollTop();
+    $("body").css({"position": "fixed", "top": -1 * currentY});
 }
 
 function setClickListener($) {
@@ -95,6 +101,7 @@ function setClickListener($) {
 function hide($) {
     $("#modal-overlay, #modal-content").fadeOut("slow", function() {
         $("#modal-overlay, #modal-content").remove();
+        $("body").css({"position": "static"});
     });
 }
 

@@ -1,4 +1,6 @@
 #modal-content {
+    overflow: scroll;
+    height: 80%;
     width: 65%;
     margin: 1.5em auto 0;
     padding: 10px 20px;
