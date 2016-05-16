@@ -60,10 +60,11 @@ function appendOverlayElement($, imageUrls, context) {
     $("body").append(`
         <div id="modal-content">
             <div>
-                <span id="modal-menu-food">料理</span>
-                <span id="modal-menu-interior">店内</span>
-                <span id="modal-menu-exterior">店頭</span>
-                <a href="${createUrlDataSource(baseUrl)[context]}" target="_blank">詳細を見る</a>
+                <a id="modal-menu-food">料理</a>
+                <a id="modal-menu-interior">店内</a>
+                <a id="modal-menu-exterior">店頭</a>
+                <a href="${createUrlDataSource(baseUrl)[context]}" target="_blank">もっと見る</a>
+                <a href="${baseUrl}" target="_blank">詳細を見る</a>
             </div>
             ${createImageElements(imageUrls)}
         </div>
