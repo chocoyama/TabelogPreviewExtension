@@ -68,12 +68,12 @@ function appendOverlayElement($, imageUrls, context) {
             ${createImageElements(imageUrls)}
         </div>
     `);
-    setTimeout(function() { centeringModalSyncer($); }, 500);
-
-    fixBodyPosition($);
-    $("#modal-overlay, #modal-content").fadeIn("slow");
-
-    setClickListener($);
+    setTimeout(function() {
+        centeringModalSyncer($);
+        fixBodyPosition($);
+        setClickListener($);
+        $("#modal-overlay, #modal-content").fadeIn("slow");
+    }, 750);
 }
 
 function fixBodyPosition($) {
