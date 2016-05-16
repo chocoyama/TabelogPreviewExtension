@@ -1,5 +1,6 @@
 let req;
 let baseUrl;
+let cachedYPosition;
 
 $(function() {
     $("a").hover(
@@ -76,8 +77,8 @@ function appendOverlayElement($, imageUrls, context) {
 }
 
 function fixBodyPosition($) {
-    const currentY = $(window).scrollTop();
-    $("body").css({"position": "fixed", "top": -1 * currentY});
+    cachedYPosition = $(window).scrollTop();
+    $("body").css({"position": "fixed", "top": -1 * cachedYPosition});
 }
 
 function setClickListener($) {
@@ -102,6 +103,7 @@ function hide($) {
     $("#modal-overlay, #modal-content").fadeOut("slow", function() {
         $("#modal-overlay, #modal-content").remove();
         $("body").css({"position": "static"});
+        $("body").prop({scrollTop: cachedYPosition});
     });
 }
 
